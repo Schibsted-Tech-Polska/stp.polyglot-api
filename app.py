@@ -6,7 +6,7 @@ from cors import crossdomain
 app = Flask(__name__)
 
 @app.route('/ner', methods=['POST', 'OPTIONS'])
-@crossdomain(origin='*')
+@crossdomain(origin='*', headers=['Content-type'])
 def ner():
     if not request.json or not 'text' in request.json:
         abort(400)
