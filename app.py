@@ -1,10 +1,12 @@
 #!flask/bin/python
 from flask import Flask, jsonify, request, abort
-from polyglot.text import Text, Word
+from polyglot.text import Text
+from cors import crossdomain
 
 app = Flask(__name__)
 
-@app.route('/ner', methods=['POST'])
+@app.route('/ner', methods=['POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def ner():
     if not request.json or not 'text' in request.json:
         abort(400)
@@ -25,7 +27,7 @@ def ner():
 
 @app.route('/')
 def index():
-    return jsonify({'error': 'Use /search endpoint'}), 400
+    return jsonify({'error': 'Use /ner endpoint'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
