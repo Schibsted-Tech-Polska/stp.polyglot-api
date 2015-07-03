@@ -2,8 +2,16 @@
 from flask import Flask, jsonify, request, abort
 from polyglot.text import Text
 from cors import crossdomain
+import os
 
 app = Flask(__name__)
+
+if 'POLYGLOT_CONFIG' in os.environ:
+    try:
+        app.config.from_envvar('POLYGLOT_CONFIG')
+    except (IOError):
+        print 'Unable to load configuration. Skipping...'
+
 
 @app.route('/ner', methods=['POST', 'OPTIONS'])
 @crossdomain(origin='*', headers=['Content-type'])
