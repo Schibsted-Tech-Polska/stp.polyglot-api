@@ -25,7 +25,7 @@ def ner():
 
     return jsonify(result), 200
 
-@app.route('/status')
+@app.route('/application-status')
 def status():
     return jsonify({'status': 'running'})
 
