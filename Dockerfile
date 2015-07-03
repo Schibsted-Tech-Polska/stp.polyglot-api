@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --force-yes python-numpy libicu-dev
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN polyglot download LANG:no
+
 COPY . /usr/src/app
 
 EXPOSE 5000
