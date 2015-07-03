@@ -1,5 +1,9 @@
 #!flask/bin/python
 from flask import Flask, jsonify, request, abort
+import polyglot
+import os
+if 'DATA_PATH' in os.environ:
+    polyglot.data_path = os.environ['DATA_PATH']
 from polyglot.text import Text
 from cors import crossdomain
 import os
