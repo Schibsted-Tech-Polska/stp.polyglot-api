@@ -25,6 +25,10 @@ def ner():
 
     return jsonify(result), 200
 
+@app.route('/status')
+def status():
+    return jsonify({'status': 'running'})
+
 @app.route('/')
 def index():
     return jsonify({'error': 'Use /ner endpoint'}), 400
