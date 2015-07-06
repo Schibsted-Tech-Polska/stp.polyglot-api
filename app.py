@@ -4,6 +4,7 @@ import polyglot
 import os
 if 'DATA_PATH' in os.environ:
     polyglot.data_path = os.environ['DATA_PATH']
+from polyglot.downloader import Downloader
 from polyglot.text import Text
 from cors import crossdomain
 import os
@@ -24,6 +25,16 @@ def ner():
         abort(400)
 
     text = Text(request.json['text'])
+
+    if 'lang' in request.json:
+        downloader = Downloader(download_dir=polyglot.data_path+'/polyglot_data')
+        supported_languages = [x.language for x in downloader.get_collection(task="ner2").packages]
+        lang_ = request.json['lang']
+        if lang_ not in supported_languages:
+            abort(400, {'message': 'language {} is not supported'.format(lang_)})
+
+        text.language = lang_
+
     entities = text.entities
     result = {}
     for entity in entities:
@@ -46,4 +57,4 @@ def index():
     return jsonify({'error': 'Use /ner endpoint'}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
