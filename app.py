@@ -24,7 +24,11 @@ def ner():
     if not request.json or not 'text' in request.json:
         abort(400)
 
-    text = Text(request.json['text'])
+    input_text = request.json['text'].strip()
+    if input_text == '':
+        return jsonify({}), 200
+
+    text = Text(input_text)
 
     if 'lang' in request.json:
         downloader = Downloader(download_dir=polyglot.data_path+'/polyglot_data')
