@@ -1,0 +1,36 @@
+{
+  "id": "/api.vg.no/ner/polyglot",
+  "instances": 2,
+  "cpus": 0.5,
+  "mem": 512,
+  "container": {
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+      "image": "docker.vgnett.no/vgno/stp.polyglot-api:e5d2fe1",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "healthChecks": [
+    {
+      "path": "/application-status",
+      "protocol": "HTTP",
+      "portIndex": 0,
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 5,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 1,
+    "maximumOverCapacity": 1
+  }
+}
